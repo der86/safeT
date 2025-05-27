@@ -7,7 +7,7 @@ import Colors from '../constants/colors';
 
 export const AudioMonitor = () => {
   const { isAudioEnabled, toggleAudio, audioLevel, simulateAudioLevel } = useDeviceStore();
-  const intervalRef = useRef<number | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (isAudioEnabled) {

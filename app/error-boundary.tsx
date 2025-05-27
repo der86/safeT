@@ -14,11 +14,8 @@ interface State {
 
 const IFRAME_ID = 'rork-web-preview';
 
-const webTargetOrigins = [
-  "http://localhost:3000",
-  "https://rorkai.com",
-  "https://rork.app",
-];    
+// Only allow localhost
+const webTargetOrigins = ["http://localhost:3000"];
 
 function sendErrorToIframeParent(error: any, errorInfo?: any) {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -40,10 +37,11 @@ function sendErrorToIframeParent(error: any, errorInfo?: any) {
     };
 
     try {
-    window.parent.postMessage(
-      errorMessage,
-      webTargetOrigins.some(origin => document.referrer.startsWith(origin)) ? document.referrer : '*'
-    );
+      const validOrigin = webTargetOrigins.some(origin =>
+        document.referrer.startsWith(origin)
+      ) ? document.referrer : 'http://localhost:3000';
+
+      window.parent.postMessage(errorMessage, validOrigin);
     } catch (postMessageError) {
       console.error('Failed to send error to parent:', postMessageError);
     }
@@ -51,21 +49,29 @@ function sendErrorToIframeParent(error: any, errorInfo?: any) {
 }
 
 if (Platform.OS === 'web' && typeof window !== 'undefined') {
-  window.addEventListener('error', (event) => {
-    event.preventDefault();
-    const errorDetails = event.error ?? {
-      message: event.message ?? 'Unknown error',
-      filename: event.filename ?? 'Unknown file',
-      lineno: event.lineno ?? 'Unknown line',
-      colno: event.colno ?? 'Unknown column'
-    };
-    sendErrorToIframeParent(errorDetails);
-  }, true);
+  window.addEventListener(
+    'error',
+    (event) => {
+      event.preventDefault();
+      const errorDetails = event.error ?? {
+        message: event.message ?? 'Unknown error',
+        filename: event.filename ?? 'Unknown file',
+        lineno: event.lineno ?? 'Unknown line',
+        colno: event.colno ?? 'Unknown column'
+      };
+      sendErrorToIframeParent(errorDetails);
+    },
+    true
+  );
 
-  window.addEventListener('unhandledrejection', (event) => {
-    event.preventDefault();
-    sendErrorToIframeParent(event.reason);
-  }, true);
+  window.addEventListener(
+    'unhandledrejection',
+    (event) => {
+      event.preventDefault();
+      sendErrorToIframeParent(event.reason);
+    },
+    true
+  );
 
   const originalConsoleError = console.error;
   console.error = (...args) => {
@@ -142,6 +148,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
   },
-}); 
+});
 
 export default ErrorBoundary;

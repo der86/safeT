@@ -3,14 +3,18 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --tunnel",
-    "start-web": "expo start --web --tunnel",
-    "start-web-dev": "DEBUG=expo* expo start --web --tunnel"
+    "start": "expo start --localhost",
+    "start-web": "expo start --web --localhost",
+    "start-web-dev": "DEBUG=expo* expo start --web --localhost",
+    "dev": "bun start"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-navigation/native": "^7.1.6",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
     "expo": "^53.0.4",
     "expo-blur": "~14.1.4",
     "expo-constants": "~17.1.4",
@@ -27,7 +31,13 @@
     "expo-symbols": "~0.4.4",
     "expo-system-ui": "~5.0.6",
     "expo-web-browser": "~14.1.6",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react-native": "^0.475.0",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.15.0",
+    "morgan": "^1.10.0",
     "nativewind": "^4.1.23",
     "react": "^19.0.0",
     "react-dom": "19.0.0",
@@ -37,6 +47,7 @@
     "react-native-screens": "~4.10.0",
     "react-native-svg": "15.11.2",
     "react-native-web": "^0.20.0",
+    "socket.io": "^4.8.1",
     "zustand": "^5.0.2"
   },
   "devDependencies": {

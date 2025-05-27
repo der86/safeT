@@ -40,8 +40,10 @@ export default function RootLayout() {
 
   return (
     <ErrorBoundary>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.dark.background} />
-      <RootLayoutNav />
+      <>
+        <StatusBar barStyle="light-content" backgroundColor={Colors.dark.background} />
+        <RootLayoutNav />
+      </>
     </ErrorBoundary>
   );
 }
