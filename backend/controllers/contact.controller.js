@@ -80,13 +80,12 @@ exports.getContact = async (req, res) => {
 // @desc    Create new contact
 // @route   POST /api/contacts
 // @access  Private
+// filepath: c:\Users\deric\OneDrive\Desktop\ideas\safeT\backend\controllers\contact.controller.js
 exports.createContact = async (req, res) => {
   try {
-    // Add user to req.body
+    console.log('Create contact request body:', req.body); // Add this line
     req.body.user = req.user.id;
-
     const contact = await Contact.create(req.body);
-
     res.status(201).json({
       success: true,
       data: contact
@@ -98,7 +97,6 @@ exports.createContact = async (req, res) => {
     });
   }
 };
-
 // @desc    Update contact
 // @route   PUT /api/contacts/:id
 // @access  Private

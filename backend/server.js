@@ -33,9 +33,9 @@ const io = socketIo(server, {
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+mongoose.connect("mongodb+srv://safeT:Billion$@safet.mtmxu37.mongodb.net/?retryWrites=true&w=majority&appName=safeT", {
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => {
