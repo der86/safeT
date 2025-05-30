@@ -3,17 +3,16 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { Platform, StatusBar } from "react-native";
 import Colors from "../constants/colors";
 
 import { ErrorBoundary } from "./error-boundary";
+import { AuthProvider, useAuth } from './context/AuthContext';
+import AuthScreen from './(auth)/AuthScreen';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -40,15 +39,20 @@ export default function RootLayout() {
 
   return (
     <ErrorBoundary>
-      <>
-        <StatusBar barStyle="light-content" backgroundColor={Colors.dark.background} />
+      <AuthProvider>
         <RootLayoutNav />
-      </>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }
 
 function RootLayoutNav() {
+  const { token } = useAuth();
+
+  if (!token) {
+    return <AuthScreen />;
+  }
+
   return (
     <Stack
       screenOptions={{

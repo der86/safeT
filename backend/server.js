@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -55,6 +56,8 @@ app.use('/api/locations', locationRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/contacts', require('./routes/contact.routes'));
+
 
 // Root route
 app.get('/', (req, res) => {
