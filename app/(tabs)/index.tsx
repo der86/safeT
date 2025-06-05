@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { Stack } from 'expo-router';
 import { ConnectionStatus } from '../../components/ConnectionStatus';
-import { LocationMap } from '../../components/LocationMap';
+import LocationMap from '../../components/LocationMap';
 import { AudioMonitor } from '../../components/AudioMonitor';
 import { FollowModeToggle } from '../../components/FollowModeToggle';
 import { EmergencyButton } from '../../components/EmergencyButton';

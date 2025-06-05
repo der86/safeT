@@ -36,4 +36,21 @@ const LocationSchema = new mongoose.Schema({
 // Index for geospatial queries
 LocationSchema.index({ latitude: 1, longitude: 1 });
 
-module.exports = mongoose.model('Location', LocationSchema);
+
+
+const locationSchema = new mongoose.Schema({
+  latitude: Number,
+  longitude: Number,
+  timestamp: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+// ✅ Prevent model overwrite on hot reload
+const Location = mongoose.models.Location || mongoose.model('Location', locationSchema);
+
+module.exports = Location;
+
+
+// module.exports = mongoose.model('Location', LocationSchema);

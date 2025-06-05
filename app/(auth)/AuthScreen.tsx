@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } fr
 import { useAuth } from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = 'http://192.168.1.5:5000/api/auth'; // Change to your backend URL if needed
+const API_URL = 'http://192.168.1.17:5000/api/auth'; // Change to your backend URL if needed
 
 export default function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);

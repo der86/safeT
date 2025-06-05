@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import { Stack } from 'expo-router';
-import { LocationMap } from '../../components/LocationMap';
+import LocationMap from '../../components/LocationMap';
 import { FollowModeToggle } from '../../components/FollowModeToggle';
 import Colors from '../../constants/colors';
 import { useDeviceStore } from '../../store/deviceStore';

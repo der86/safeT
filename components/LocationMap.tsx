@@ -1,111 +1,98 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
-import { useDeviceStore } from '../store/deviceStore';
-import Colors from '../constants/colors';
-import { MapPin } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
+import { Button, View, Text, Alert, StyleSheet, Dimensions } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
-// Mock map component since we can't use actual maps in this demo
-export const LocationMap = () => {
-  const { currentLocation, updateLocation, isTracking } = useDeviceStore();
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+const LocationSender = () => {
+  const [location, setLocation] = useState<LocationObject | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isTracking) {
-      // Update location every 5 seconds when tracking is enabled
-      intervalRef.current = setInterval(() => {
-        updateLocation();
-      }, 5000);
-    } else if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+  interface Coords {
+    latitude: number;
+    longitude: number;
+  }
+
+  interface LocationObject {
+    coords: Coords;
+    // Add other properties from expo-location LocationObject if needed
+  }
+
+  const sendLocationToServer = async (coords: Coords): Promise<void> => {
+    try {
+      const response = await fetch('http://192.168.1.17:5000/api/location', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(coords),
+      });
+
+      const data = await response.json();
+      console.log('Location sent:', data);
+      Alert.alert('Success', 'Location sent successfully!');
+    } catch (error) {
+      console.error('Error sending location:', error);
+      Alert.alert('Error', 'Failed to send location');
     }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [isTracking, updateLocation]);
-
-  const formatCoordinate = (coord: number) => {
-    return coord.toFixed(6);
   };
 
-  const formatTime = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission denied');
+      return;
+    }
+
+    let loc = await Location.getCurrentPositionAsync({});
+    setLocation(loc);
+    sendLocationToServer({
+      latitude: loc.coords.latitude,
+      longitude: loc.coords.longitude,
+    });
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.mapContainer}>
-        <View style={styles.mockMap}>
-          <MapPin size={32} color={Colors.dark.primary} />
-          <Text style={styles.trackingStatus}>
-            {isTracking ? 'Live Tracking' : 'Tracking Paused'}
+      <Button title="Send My Location" onPress={getLocation} />
+      {errorMsg && <Text>{errorMsg}</Text>}
+      {location && (
+        <>
+          <Text>
+            Latitude: {location.coords.latitude}, Longitude: {location.coords.longitude}
           </Text>
-        </View>
-      </View>
-      <View style={styles.infoContainer}>
-        <View style={styles.coordinateRow}>
-          <Text style={styles.label}>Latitude:</Text>
-          <Text style={styles.value}>{formatCoordinate(currentLocation.latitude)}</Text>
-        </View>
-        <View style={styles.coordinateRow}>
-          <Text style={styles.label}>Longitude:</Text>
-          <Text style={styles.value}>{formatCoordinate(currentLocation.longitude)}</Text>
-        </View>
-        <View style={styles.coordinateRow}>
-          <Text style={styles.label}>Last Updated:</Text>
-          <Text style={styles.value}>{formatTime(currentLocation.timestamp)}</Text>
-        </View>
-        <View style={styles.coordinateRow}>
-          <Text style={styles.label}>Accuracy:</Text>
-          <Text style={styles.value}>{currentLocation.accuracy.toFixed(1)} m</Text>
-        </View>
-      </View>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}
+          >
+            <Marker
+              coordinate={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              }}
+              title="You are here"
+            />
+          </MapView>
+        </>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.dark.card,
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginBottom: 16,
-  },
-  mapContainer: {
-    width: '100%',
-    height: 200,
-  },
-  mockMap: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#263238',
+    flex: 1,
+    padding: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
-  trackingStatus: {
-    color: Colors.dark.text,
-    marginTop: 8,
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  infoContainer: {
-    padding: 16,
-  },
-  coordinateRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  label: {
-    color: Colors.dark.subtext,
-    fontSize: 14,
-  },
-  value: {
-    color: Colors.dark.text,
-    fontSize: 14,
-    fontWeight: '500',
+  map: {
+    width: Dimensions.get('window').width - 40,
+    height: 300,
+    marginTop: 20,
   },
 });
+
+export default LocationSender;

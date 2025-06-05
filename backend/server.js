@@ -5,10 +5,6 @@ const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
-
-// Load environment variables
-dotenv.config();
 
 // Import routes
 const authRoutes = require('./routes/auth.routes');
@@ -19,7 +15,10 @@ const alertRoutes = require('./routes/alert.routes');
 const settingsRoutes = require('./routes/settings.routes');
 
 // Import socket handlers
-const socketHandler = require('./socket/socketHandler');
+const socketHandler = require('./socket/socketHundler');
+
+// Import Location model (moved to separate file)
+const Location = require('./models/Location');
 
 // Initialize Express app
 const app = express();
@@ -34,7 +33,7 @@ const io = socketIo(server, {
 });
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://safeT:Billion$@safet.mtmxu37.mongodb.net/?retryWrites=true&w=majority&appName=safeT", {
+mongoose.connect(process.env.MONGO_URI, {
   // useNewUrlParser: true,
   // useUnifiedTopology: true
 })
@@ -56,8 +55,6 @@ app.use('/api/locations', locationRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/settings', settingsRoutes);
-app.use('/api/contacts', require('./routes/contact.routes'));
-
 
 // Root route
 app.get('/', (req, res) => {
@@ -88,6 +85,5 @@ server.listen(PORT, () => {
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled Promise Rejection:', err);
-  // Close server & exit process
   server.close(() => process.exit(1));
 });
