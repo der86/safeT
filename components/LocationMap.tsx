@@ -19,7 +19,7 @@ const LocationSender = () => {
 
   const sendLocationToServer = async (coords: Coords): Promise<void> => {
     try {
-      const response = await fetch('http://192.168.1.17:5000/api/location', {
+      const response = await fetch('http://192.168.1.11:5000/api/location', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(coords),

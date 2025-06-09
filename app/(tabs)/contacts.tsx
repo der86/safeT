@@ -6,7 +6,7 @@ import { AddContactModal } from '../../components/AddContactModal';
 import Colors from '../../constants/colors';
 // Update the path below if your contactsStore is in a different location
 import { useContactsStore } from '../../store/contactsStore';
-import { Plus, Star } from 'lucide-react-native';
+import { Feather,FontAwesome } from '@expo/vector-icons';
 
 export default function ContactsScreen() {
   const { contacts } = useContactsStore();
@@ -25,7 +25,7 @@ export default function ContactsScreen() {
               onPress={() => setModalVisible(true)}
               style={styles.addButton}
             >
-              <Plus size={24} color={Colors.dark.text} />
+              <Feather name="plus" size={24} color={Colors.dark.text} />
             </Pressable>
           ),
         }} 
@@ -35,7 +35,7 @@ export default function ContactsScreen() {
           {emergencyContacts.length > 0 && (
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <Star size={16} color={Colors.dark.warning} fill={Colors.dark.warning} />
+                <FontAwesome name="star" size={16} color={Colors.dark.warning} />
                 <Text style={styles.sectionTitle}>Emergency Contacts</Text>
               </View>
               
@@ -65,7 +65,7 @@ export default function ContactsScreen() {
             onPress={() => setModalVisible(true)}
             style={styles.addContactButton}
           >
-            <Plus size={20} color={Colors.dark.text} />
+            <Feather name="plus" size={20} color={Colors.dark.text} />
             <Text style={styles.addContactText}>Add New Contact</Text>
           </Pressable>
         </ScrollView>

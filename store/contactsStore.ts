@@ -29,7 +29,7 @@ addContact: async (contact) => {
     }
 
     const response = await axios.post(
-      'http://192.168.1.17:5000/api/contacts',
+      'http://192.168.1.11:5000/api/contacts',
       contact,
       {
         headers: {

@@ -4,15 +4,12 @@ import { StatusBar } from 'expo-status-bar';
 import { useDeviceStore } from '../store/deviceStore';
 import Colors from '../constants/colors';
 import { 
-  Battery, 
-  Bluetooth, 
-  Clock, 
-  MapPin, 
-  Mic, 
-  Signal, 
-  Smartphone, 
-  Wifi 
-} from 'lucide-react-native';
+  MaterialCommunityIcons, 
+  FontAwesome, 
+  Feather, 
+  Entypo, 
+  Ionicons 
+} from '@expo/vector-icons';
 
 export default function ModalScreen() {
   const { deviceStatus, currentLocation, isTracking, isAudioEnabled } = useDeviceStore();
@@ -27,129 +24,127 @@ export default function ModalScreen() {
       <StatusBar style="light" />
       
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.deviceHeader}>
-          <Smartphone size={48} color={Colors.dark.primary} />
-          <Text style={styles.deviceName}>Safety Tracker Device</Text>
-          <View style={[
-            styles.statusBadge,
-            deviceStatus.isConnected ? styles.connectedBadge : styles.disconnectedBadge
-          ]}>
-            <Text style={styles.statusText}>
-              {deviceStatus.isConnected ? 'Connected' : 'Disconnected'}
-            </Text>
-          </View>
-        </View>
-        
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Connection</Text>
-          
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              {deviceStatus.connectionType === 'bluetooth' ? (
-                <Bluetooth size={24} color={Colors.dark.primary} />
-              ) : (
-                <Wifi size={24} color={Colors.dark.primary} />
-              )}
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Connection Type</Text>
-              <Text style={styles.infoValue}>
-                {deviceStatus.connectionType === 'bluetooth' ? 'Bluetooth' : 'Wi-Fi'}
+        <View>
+          <View style={styles.deviceHeader}>
+            <MaterialCommunityIcons name="cellphone" size={48} color={Colors.dark.primary} />
+            <Text style={styles.deviceName}>Safety Tracker Device</Text>
+            <View style={[
+              deviceStatus.isConnected ? styles.connectedBadge : styles.disconnectedBadge,
+              styles.statusBadge
+            ]}>
+              <Text style={styles.statusText}>
+                {deviceStatus.isConnected ? 'Connected' : 'Disconnected'}
               </Text>
             </View>
           </View>
-          
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Signal size={24} color={Colors.dark.primary} />
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Connection</Text>
+
+            <View style={styles.infoRow}>
+              <View style={styles.infoIcon}>
+                {deviceStatus.connectionType === 'bluetooth' ? (
+                  <Feather name="bluetooth" size={24} color={Colors.dark.primary} />
+                ) : (
+                  <Feather name="wifi" size={24} color={Colors.dark.primary} />
+                )}
+              </View>
+              <View style={styles.infoContent}>
+                <Text style={styles.infoValue}>
+                  {deviceStatus.connectionType === 'bluetooth' ? 'Bluetooth' : 'Wi-Fi'}
+                </Text>
+              </View>
             </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Signal Strength</Text>
-              <Text style={styles.infoValue}>{deviceStatus.signalStrength}%</Text>
+
+            <View style={styles.infoRow}>
+              <View style={styles.infoIcon}>
+                <Feather name="activity" size={24} color={Colors.dark.primary} />
+              </View>
+              <View style={styles.infoContent}>
+                <Text style={styles.infoValue}>
+                  {deviceStatus.signalStrength ? `${deviceStatus.signalStrength} dBm` : 'N/A'}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.infoRow}>
+              <View style={styles.infoIcon}>
+                <Feather name="clock" size={24} color={Colors.dark.primary} />
+              </View>
+              <View style={styles.infoContent}>
+                <Text style={styles.infoValue}>
+                  {/* Removed deviceStatus.lastSync as it does not exist */}
+                  N/A
+                </Text>
+              </View>
             </View>
           </View>
-          
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Clock size={24} color={Colors.dark.primary} />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Last Seen</Text>
-              <Text style={styles.infoValue}>{formatTime(deviceStatus.lastSeen)}</Text>
-            </View>
-          </View>
-        </View>
-        
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Device Status</Text>
-          
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Battery size={24} color={Colors.dark.primary} />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Battery Level</Text>
-              <View style={styles.batteryContainer}>
-                <View 
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Device Status</Text>
+
+            <View style={styles.infoRow}>
+              <View style={styles.infoIcon}>
+                <Ionicons name="battery-full" size={24} color={Colors.dark.primary} />
+              </View>
+              <View style={[styles.batteryContainer, { flex: 1, marginLeft: 8, marginRight: 8 }]}>
+                <View
                   style={[
-                    styles.batteryLevel, 
+                    styles.batteryLevel,
                     { width: `${deviceStatus.batteryLevel}%` },
                     deviceStatus.batteryLevel < 20 ? styles.batteryLow : null
-                  ]} 
+                  ]}
                 />
               </View>
               <Text style={styles.batteryText}>{deviceStatus.batteryLevel}%</Text>
             </View>
+
+            <View style={styles.infoRow}>
+              <View style={styles.infoIcon}>
+                <Feather name="map-pin" size={24} color={Colors.dark.primary} />
+              </View>
+              <View style={styles.infoContent}>
+                <Text style={styles.infoValue}>
+                  {isTracking ? 'Active' : 'Inactive'}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.infoRow}>
+              <View style={styles.infoIcon}>
+                <Feather name="mic" size={24} color={Colors.dark.primary} />
+              </View>
+              <View style={styles.infoContent}>
+                <Text style={styles.infoValue}>
+                  {isAudioEnabled ? 'Enabled' : 'Disabled'}
+                </Text>
+              </View>
+            </View>
           </View>
           
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <MapPin size={24} color={Colors.dark.primary} />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Tracking Status</Text>
-              <Text style={styles.infoValue}>
-                {isTracking ? 'Active' : 'Inactive'}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Current Location</Text>
+            
+            <View style={styles.locationContainer}>
+              <Text style={styles.coordinateLabel}>Latitude</Text>
+              <Text style={styles.coordinateValue}>
+                {currentLocation.latitude.toFixed(6)}
+              </Text>
+              
+              <Text style={styles.coordinateLabel}>Longitude</Text>
+              <Text style={styles.coordinateValue}>
+                {currentLocation.longitude.toFixed(6)}
+              </Text>
+              
+              <Text style={styles.coordinateLabel}>Accuracy</Text>
+              <Text style={styles.coordinateValue}>
+                {currentLocation.accuracy.toFixed(1)} meters
+              </Text>
+              
+              <Text style={styles.coordinateLabel}>Last Updated</Text>
+              <Text style={styles.coordinateValue}>
+                {formatTime(currentLocation.timestamp)}
               </Text>
             </View>
-          </View>
-          
-          <View style={styles.infoRow}>
-            <View style={styles.infoIcon}>
-              <Mic size={24} color={Colors.dark.primary} />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Audio Monitoring</Text>
-              <Text style={styles.infoValue}>
-                {isAudioEnabled ? 'Enabled' : 'Disabled'}
-              </Text>
-            </View>
-          </View>
-        </View>
-        
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Current Location</Text>
-          
-          <View style={styles.locationContainer}>
-            <Text style={styles.coordinateLabel}>Latitude</Text>
-            <Text style={styles.coordinateValue}>
-              {currentLocation.latitude.toFixed(6)}
-            </Text>
-            
-            <Text style={styles.coordinateLabel}>Longitude</Text>
-            <Text style={styles.coordinateValue}>
-              {currentLocation.longitude.toFixed(6)}
-            </Text>
-            
-            <Text style={styles.coordinateLabel}>Accuracy</Text>
-            <Text style={styles.coordinateValue}>
-              {currentLocation.accuracy.toFixed(1)} meters
-            </Text>
-            
-            <Text style={styles.coordinateLabel}>Last Updated</Text>
-            <Text style={styles.coordinateValue}>
-              {formatTime(currentLocation.timestamp)}
-            </Text>
           </View>
         </View>
       </ScrollView>

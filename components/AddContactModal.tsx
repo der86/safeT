@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable, Modal } from 'react-native';
-import { X } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 // Update the path below to the correct relative path to contactsStore
 import { useContactsStore } from '../store/contactsStore';
 import Colors from '../constants/colors';
@@ -46,7 +46,7 @@ export const AddContactModal = ({ visible, onClose }: AddContactModalProps) => {
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Add New Contact</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <X size={24} color={Colors.dark.text} />
+              <Feather name="x" size={24} color={Colors.dark.text} />
             </Pressable>
           </View>
           

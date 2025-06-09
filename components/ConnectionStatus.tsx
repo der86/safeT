@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Bluetooth, Wifi, AlertCircle } from 'lucide-react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 // Update the path below if your deviceStore file is in a different location
 import { useDeviceStore } from '../store/deviceStore';
 // Update the path below to the correct relative path if needed
@@ -21,22 +21,21 @@ export const ConnectionStatus = () => {
   }, [isConnected, connectDevice]);
 
   const getConnectionIcon = () => {
-    if (!isConnected) {
-      return <AlertCircle size={24} color={Colors.dark.danger} />;
+      return <MaterialCommunityIcons name="alert-circle" size={24} color={Colors.dark.danger} />;
     }
     
     if (connectionType === 'bluetooth') {
-      return <Bluetooth size={24} color={Colors.dark.primary} />;
+    if (connectionType === 'bluetooth') {
+      return <MaterialCommunityIcons name="bluetooth" size={24} color={Colors.dark.primary} />;
     }
     
-    return <Wifi size={24} color={Colors.dark.primary} />;
+    return <MaterialCommunityIcons name="wifi" size={24} color={Colors.dark.primary} />;
   };
-
   const getStatusText = () => {
     if (!isConnected) {
       return 'Disconnected';
     }
-    return `Connected via ${connectionType === 'bluetooth' ? 'Bluetooth' : 'Wi-Fi'}`;
+    return `Connected via ${connectionType === 'wifi' ? 'Wi-Fi' : 'Unknown'}`;
   };
 
   const handleToggleConnection = () => {

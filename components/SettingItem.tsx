@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Switch, Pressable } from 'react-native';
-import { ChevronRight } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/colors';
 
 interface SettingItemProps {
@@ -42,7 +42,7 @@ export const SettingItem = ({
           thumbColor={Colors.dark.text}
         />
       ) : (
-        <ChevronRight size={20} color={Colors.dark.subtext} />
+        <Feather name="chevron-right" size={20} color={Colors.dark.subtext} />
       )}
     </Pressable>
   );

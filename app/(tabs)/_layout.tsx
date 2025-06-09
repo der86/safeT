@@ -1,6 +1,10 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { Home, MapPin, Users, Settings } from "lucide-react-native";
+import {   MaterialCommunityIcons, 
+  FontAwesome, 
+  Feather, 
+  Entypo, 
+  Ionicons } from "@expo/vector-icons";
 
 const Colors = {
   dark: {
@@ -13,10 +17,10 @@ const Colors = {
 };
 
 const tabScreens = [
-  { name: "index", title: "Home", icon: Home },
-  { name: "location", title: "Location", icon: MapPin },
-  { name: "contacts", title: "Contacts", icon: Users },
-  { name: "settings", title: "Settings", icon: Settings },
+  { name: "index", title: "Home", icon: (props: any) => <Feather name="home" {...props} /> },
+  { name: "location", title: "Location", icon: (props: any) => <Feather name="map-pin" {...props} /> },
+  { name: "contacts", title: "Contacts", icon: (props: any) => <Feather name="users" {...props} /> },
+  { name: "settings", title: "Settings", icon: (props: any) => <Feather name="settings" {...props} /> },
 ];
 
 const screenOptions = {
@@ -41,13 +45,13 @@ const screenOptions = {
 export default function TabLayout() {
   return (
     <Tabs screenOptions={screenOptions}>
-      {tabScreens.map(({ name, title, icon: Icon }) => (
+      {tabScreens.map(({ name, title, icon }) => (
         <Tabs.Screen
           key={name}
           name={name}
           options={{
             title,
-            tabBarIcon: ({ color }: { color: string }) => <Icon size={24} color={color} />,
+            tabBarIcon: ({ color }: { color: string }) => icon({ size: 24, color }),
           }}
         />
       ))}

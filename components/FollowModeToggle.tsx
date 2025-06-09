@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { MapPin, Navigation } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import { useDeviceStore } from '../store/deviceStore';
 import Colors from '../constants/colors';
 
@@ -41,7 +41,8 @@ export const FollowModeToggle = () => {
           isTracking ? styles.activeButton : styles.inactiveButton,
         ]}
       >
-        <MapPin
+        <Feather
+          name="map-pin"
           size={24}
           color={isTracking ? Colors.dark.text : Colors.dark.subtext}
         />
@@ -62,7 +63,8 @@ export const FollowModeToggle = () => {
           followModeEnabled ? styles.activeButton : styles.inactiveButton,
         ]}
       >
-        <Navigation
+        <Feather
+          name="navigation"
           size={24}
           color={followModeEnabled ? Colors.dark.text : Colors.dark.subtext}
         />

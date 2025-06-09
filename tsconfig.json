@@ -3,7 +3,7 @@
     "jsx": "react-native",
     "allowJs": true,
     "isolatedModules": true,
-    "moduleResolution": "nodenext", // valid for customConditions
+    "moduleResolution": "nodenext",
     "target": "ES6",
     "module": "NodeNext",
     "esModuleInterop": true,
@@ -14,13 +14,15 @@
       "react",
       "react-native"
     ]
-    // If you need "customConditions", add it here, otherwise ensure it's not present
   },
-  "extends": "expo/tsconfig.base",
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+  ],
+  "dependencies": {
+    "expo": "^48.0.0"
+  },
+  "extends": "expo/tsconfig.base"
 }

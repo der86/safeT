@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Mic, MicOff } from 'lucide-react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 // Update the path below to the correct relative path if needed
 import { useDeviceStore } from '../store/deviceStore';
 import Colors from '../constants/colors';
@@ -64,9 +64,9 @@ export const AudioMonitor = () => {
       <View style={styles.headerContainer}>
         <View style={styles.iconContainer}>
           {isAudioEnabled ? (
-            <Mic size={24} color={Colors.dark.primary} />
+            <MaterialIcons name="mic" size={24} color={Colors.dark.primary} />
           ) : (
-            <MicOff size={24} color={Colors.dark.inactive} />
+            <MaterialIcons name="mic-off" size={24} color={Colors.dark.inactive} />
           )}
         </View>
         <Text style={styles.title}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Phone, Star, Trash2 } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 // Update the path below to the correct relative path if needed
 import { Contact } from '../types';
 import Colors from '../constants/colors';
@@ -18,7 +18,7 @@ export const ContactItem = ({ contact }: ContactItemProps) => {
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{contact.name}</Text>
         <View style={styles.phoneContainer}>
-          <Phone size={14} color={Colors.dark.subtext} />
+          <Feather name="phone" size={14} color={Colors.dark.subtext} />
           <Text style={styles.phone}>{contact.phone}</Text>
         </View>
       </View>
@@ -31,10 +31,10 @@ export const ContactItem = ({ contact }: ContactItemProps) => {
             contact.isEmergency ? styles.starActive : styles.starInactive,
           ]}
         >
-          <Star
+          <Feather
+            name="star"
             size={20}
             color={contact.isEmergency ? Colors.dark.warning : Colors.dark.inactive}
-            fill={contact.isEmergency ? Colors.dark.warning : 'transparent'}
           />
         </Pressable>
         
@@ -42,7 +42,7 @@ export const ContactItem = ({ contact }: ContactItemProps) => {
           onPress={() => removeContact(contact.id)}
           style={styles.actionButton}
         >
-          <Trash2 size={20} color={Colors.dark.danger} />
+          <Feather name="trash-2" size={20} color={Colors.dark.danger} />
         </Pressable>
       </View>
     </View>

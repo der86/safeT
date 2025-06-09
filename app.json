@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.rork.safetrack-mobile-app"
+      "package": "com.derickoj4.safetrackmobileapp"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -31,12 +31,20 @@
       [
         "expo-router",
         {
-          "origin": "http://localhost:3000"
+          "origin": "http://192.168.0.104:3000"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "http://192.168.0.104:3000"
+      },
+      "eas": {
+        "projectId": "8a93ff8c-632f-48f8-b631-eb41b8c48d0a"
+      }
     }
   }
 }

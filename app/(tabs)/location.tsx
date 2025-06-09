@@ -5,7 +5,7 @@ import LocationMap from '../../components/LocationMap';
 import { FollowModeToggle } from '../../components/FollowModeToggle';
 import Colors from '../../constants/colors';
 import { useDeviceStore } from '../../store/deviceStore';
-import { Clock, Navigation } from 'lucide-react-native';
+import { Feather,FontAwesome } from '@expo/vector-icons';
 
 export default function LocationScreen() {
   const { locationHistory, updateLocation, isTracking } = useDeviceStore();
@@ -59,7 +59,7 @@ export default function LocationScreen() {
             locationHistory.slice().reverse().map((location, index) => (
               <View key={index} style={styles.historyItem}>
                 <View style={styles.timeContainer}>
-                  <Clock size={16} color={Colors.dark.subtext} />
+                  <Feather name="clock" size={16} color={Colors.dark.subtext} />
                   <Text style={styles.timeText}>
                     {formatTime(location.timestamp)}
                   </Text>
@@ -69,7 +69,7 @@ export default function LocationScreen() {
                 </View>
                 
                 <View style={styles.locationContainer}>
-                  <Navigation size={16} color={Colors.dark.primary} />
+                  <FontAwesome name="location-arrow" size={16} color={Colors.dark.primary} />
                   <Text style={styles.locationText}>
                     {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
                   </Text>

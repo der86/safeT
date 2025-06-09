@@ -6,18 +6,21 @@ import Colors from '../../constants/colors';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useDeviceStore } from '../../store/deviceStore';
 import { 
-  Bell, 
-  Bluetooth, 
-  HelpCircle, 
-  Info, 
-  Lock, 
-  MapPin, 
-  Mic, 
-  Moon, 
-  Navigation, 
-  Vibrate, 
-  Wifi 
-} from 'lucide-react-native';
+  MaterialCommunityIcons, 
+  FontAwesome, 
+  Feather, 
+  Entypo, 
+  Ionicons 
+} from '@expo/vector-icons';
+import Mic from '@expo/vector-icons/Feather';
+const Vibrate = MaterialCommunityIcons; // Use MaterialCommunityIcons for vibrate icon
+const Info = Feather; // Use Feather for info icon
+const Wifi = MaterialCommunityIcons; // Use MaterialCommunityIcons for wifi icon
+const Bell = Feather; // Use Feather for bell icon
+const Moon = Feather; // Use Feather for moon icon
+const Lock = Feather; // Use Feather for lock icon
+const Bluetooth = MaterialCommunityIcons; // Use MaterialCommunityIcons for bluetooth icon
+const HelpCircle = Feather; // Use Feather for help-circle icon
 
 export default function SettingsScreen() {
   const {
@@ -47,7 +50,7 @@ export default function SettingsScreen() {
           <SettingItem
             title="Follow Mode"
             description="Continuously track device location"
-            icon={<Navigation size={24} color={Colors.dark.primary} />}
+            icon={<MaterialCommunityIcons name="navigation" size={24} color={Colors.dark.primary} />}
             isToggle
             value={followModeEnabled}
             onToggle={toggleFollowMode}
@@ -103,7 +106,6 @@ export default function SettingsScreen() {
           
           <SettingItem
             title="Vibration"
-            description="Vibrate on important alerts"
             icon={<Vibrate size={24} color={Colors.dark.primary} />}
             isToggle
             value={vibrationEnabled}
@@ -124,9 +126,7 @@ export default function SettingsScreen() {
           />
           
           <SettingItem
-            title="Privacy Policy"
-            icon={<Lock size={24} color={Colors.dark.primary} />}
-          />
+            icon={<Lock size={24} color={Colors.dark.primary} />} title={''}          />
           
           <SettingItem
             title="About"

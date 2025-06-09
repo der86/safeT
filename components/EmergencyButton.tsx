@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Animated, Alert, Platform } from 'react-native';
-import { AlertTriangle } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/colors';
 import * as Haptics from 'expo-haptics';
 
@@ -127,10 +127,10 @@ export const EmergencyButton = () => {
           countdownActive && styles.buttonActive,
         ]}
       >
-        <AlertTriangle
+        <Feather
+          name="alert-triangle"
           size={32}
           color={Colors.dark.text}
-          fill={countdownActive ? Colors.dark.text : 'transparent'}
         />
         <Text style={styles.buttonText}>
           {countdownActive
